@@ -22,14 +22,7 @@ public class MemberService {
                 -> new ApiException(ExceptionStatus.LOGIN_FAILED_EXCEPTION));
     }
 
-    public Map idCheck(String loginId) {
-        Long count = memberRepository.countByLoginId(loginId);
-        Map<String, Long> resultMap = new HashMap();
-        resultMap.put("count", count);
-        return resultMap;
-    }
-
-    public void save(MemberDto memberDto) {
+    public void signUp(MemberDto memberDto) {
         Long count = memberRepository.countByLoginId(memberDto.getLoginId());
         if (count > 0)
             throw new ApiException(ExceptionStatus.MEMBER_CREATE_01);
@@ -41,6 +34,13 @@ public class MemberService {
                 .build();
 
         memberRepository.save(member);
+    }
+
+    public Map idCheck(String loginId) {
+        Long count = memberRepository.countByLoginId(loginId);
+        Map<String, Long> resultMap = new HashMap();
+        resultMap.put("count", count);
+        return resultMap;
     }
 
 }
