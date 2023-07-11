@@ -7,6 +7,7 @@ import com.ho.todoserver.member.entity.Member;
 import com.ho.todoserver.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,11 +34,11 @@ public class MemberService {
         if (count > 0)
             throw new ApiException(ExceptionStatus.MEMBER_CREATE_01);
 
-        Member member = new Member(
-                memberDto.getLoginId(),
-                memberDto.getName(),
-                memberDto.getPassword()
-        );
+        Member member = Member.builder()
+                .loginId(memberDto.getLoginId())
+                .name(memberDto.getName())
+                .password(memberDto.getPassword())
+                .build();
 
         memberRepository.save(member);
     }

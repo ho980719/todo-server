@@ -14,7 +14,7 @@ public class ApiResponseEntity<T> {
     }
 
     public static ApiResponseEntity onSuccess() {
-        return new ApiResponseEntity(ResponseStatus.OK.getStatusCode(), ResponseStatus.OK.getMessage());
+        return new ApiResponseEntity(ResponseStatus.OK.getStatusCode(), ResponseStatus.OK.getMessage(), null);
     }
 
     public ApiResponseEntity(int statusCode, String message, T payload) {

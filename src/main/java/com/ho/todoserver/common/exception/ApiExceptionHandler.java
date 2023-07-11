@@ -4,11 +4,14 @@ import com.ho.todoserver.common.entity.ApiExceptionEntity;
 import com.ho.todoserver.common.entity.ApiResponseEntity;
 import com.ho.todoserver.common.status.ExceptionStatus;
 import com.ho.todoserver.common.status.ResponseStatus;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.nio.file.AccessDeniedException;
+import java.util.Iterator;
 
 @RestControllerAdvice
 public class ApiExceptionHandler {
@@ -75,4 +78,37 @@ public class ApiExceptionHandler {
                         .build()
         );
     }
+
+    @ExceptionHandler({ConstraintViolationException.class})
+    public ApiResponseEntity<ApiExceptionEntity> exceptionHandler(final ConstraintViolationException e) {
+        e.printStackTrace();
+        return new ApiResponseEntity(
+                ResponseStatus.MISSING_REQUIRED_VALUES.getStatusCode(),
+                ResponseStatus.MISSING_REQUIRED_VALUES.getMessage(),
+                ApiExceptionEntity.builder()
+                        .errorCode(ExceptionStatus.VALIDATION_FAIL.getCode())
+                        .errorMessage(e.getConstraintViolations().iterator().next().getMessage())
+//                        .errorMessage(getResultMessage(e.getConstraintViolations().iterator())
+                        .build()
+        );
+    }
+
+    /*protected String getResultMessage(final Iterator<ConstraintViolation<?>> violationIterator) {
+        final StringBuilder resultMessageBuilder = new StringBuilder();
+        while (violationIterator.hasNext() == true) {
+            final ConstraintViolation<?> constraintViolation = violationIterator.next();
+            resultMessageBuilder
+                    .append(constraintViolation.getMessage()); // 유효성 검사 실패 시 메시지
+
+            if (violationIterator.hasNext() == true) {
+                resultMessageBuilder.append(", ");
+            }
+        }
+
+        return resultMessageBuilder.toString();
+    }
+
+    protected String getPopertyName(String propertyPath) {
+        return propertyPath.substring(propertyPath.lastIndexOf('.') + 1); // 전체 속성 경로에서 속성 이름만 가져온다.
+    }*/
 }
