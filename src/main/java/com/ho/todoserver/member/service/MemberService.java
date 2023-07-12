@@ -18,8 +18,8 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     public MemberDto signIn(MemberDto memberDto) {
-        return memberRepository.findByLoginIdAndPassword(memberDto.getLoginId(), memberDto.getPassword()).orElseThrow(()
-                -> new ApiException(ExceptionStatus.LOGIN_FAILED_EXCEPTION));
+        return memberRepository.findByLoginIdAndPassword(memberDto.getLoginId(), memberDto.getPassword())
+                .orElseThrow(()  -> new ApiException(ExceptionStatus.LOGIN_FAILED_EXCEPTION));
     }
 
     public void signUp(MemberDto memberDto) {

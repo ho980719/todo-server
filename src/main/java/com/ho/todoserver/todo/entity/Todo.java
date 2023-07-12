@@ -4,6 +4,7 @@ import com.ho.todoserver.common.entity.BaseEntity;
 import com.ho.todoserver.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -25,6 +26,8 @@ public class Todo extends BaseEntity {
 
     private String title;
     private String date;
+
+    @ColumnDefault("false")
     private Boolean completed;
 
     public Todo(Long id, Member member, String title, String date, Boolean completed) {
@@ -35,4 +38,7 @@ public class Todo extends BaseEntity {
         this.completed = completed;
     }
 
+    public void complete() {
+        this.completed = !this.completed;
+    }
 }

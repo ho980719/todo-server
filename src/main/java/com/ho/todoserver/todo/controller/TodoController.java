@@ -3,10 +3,7 @@ package com.ho.todoserver.todo.controller;
 import com.ho.todoserver.common.entity.ApiResponseEntity;
 import com.ho.todoserver.todo.service.TodoService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RequiredArgsConstructor
@@ -18,6 +15,11 @@ public class TodoController {
     @GetMapping("/{memberId}/{date}")
     public ApiResponseEntity todos(@PathVariable Long memberId, @PathVariable String date) {
         return ApiResponseEntity.onSuccess(todoService.getTodos(memberId, date));
+    }
+
+    @PutMapping("/complete/{id}")
+    public ApiResponseEntity complete(@PathVariable Long id) {
+        return ApiResponseEntity.onSuccess(todoService.complete(id));
     }
 
 }
