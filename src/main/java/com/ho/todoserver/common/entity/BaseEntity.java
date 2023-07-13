@@ -16,17 +16,18 @@ import java.time.LocalDateTime;
 public abstract class BaseEntity {
     @CreatedDate
     private LocalDateTime createdDate;
-
     private Long createBy;
-
     @LastModifiedDate
     private LocalDateTime modifiedDate;
-
     private Long modifiedBy;
-
     @ColumnDefault("false")
     private Boolean deleted;
     private LocalDateTime deletedDate;
-
     private Long deletedBy;
+
+
+    public void delete() {
+        this.deleted = true;
+        this.deletedDate = LocalDateTime.now();
+    }
 }

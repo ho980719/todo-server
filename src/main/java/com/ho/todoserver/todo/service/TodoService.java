@@ -34,4 +34,22 @@ public class TodoService {
 
         return new TodoDto(todo);
     }
+
+    public TodoDto delete(Long id) {
+        Todo todo = todoRepository.findById(id)
+                .orElseThrow(() -> new ApiException(ExceptionStatus.VALIDATION_FAIL));
+
+        todo.delete();
+
+        return new TodoDto(todo);
+    }
+
+    public TodoDto update(TodoDto todoDto) {
+        Todo todo = todoRepository.findById(todoDto.getId())
+                .orElseThrow(() -> new ApiException(ExceptionStatus.VALIDATION_FAIL));
+
+        todo.update(todoDto.getTitle());
+
+        return todoDto;
+    }
 }
